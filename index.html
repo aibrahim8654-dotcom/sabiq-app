@@ -17,11 +17,11 @@
     <!-- Navigation -->
     <nav class="navbar" id="navbar">
         <div class="nav-container">
-            <div class="nav-logo">
+            <a href="#" class="nav-logo">
                 <img src="attatched_assets/wearefree logo.png" alt="Free Up"
                     class="logo">
                 <span class="logo-text">Free Up</span>
-            </div>
+            </a>
             <div class="nav-links" id="navLinks">
                 <a href="#how-it-works">How It Works</a>
                 <a href="#why-freeup">Why Free Up</a>
@@ -56,7 +56,7 @@
                 </div>
             </div>
             <div class="hero-visual">
-                <img src="https://via.placeholder.com/900x600/4F7CFF/ffffff?text=Free+Up+App" alt="Free Up App Screens" class="hero-phones">
+                <img src="attatched_assets/hero_img.png" alt="Free Up App Screens" class="hero-phones">
             </div>
         </div>
     </section>
@@ -64,33 +64,56 @@
     <!-- How It Works Section -->
     <section class="how-it-works" id="how-it-works">
         <div class="container">
-            <div class="how-it-works-grid">
-                <div class="feature-block">
-                    <div class="feature-icon">📸</div>
-                    <div class="feature-text">
-                        <h3>Upload Your Rota or Calendar</h3>
-                        <p>Take a photo of your work schedule or connect your digital calendar. Our AI reads it instantly.</p>
+            <h2 class="section-title">How Free Up Finds Time for Everyone</h2>
+            
+            <!-- Main AI Flow -->
+            <div class="ai-flow">
+                <div class="flow-step">
+                    <div class="flow-illustration">
+                        <div class="illustration-placeholder upload"></div>
                     </div>
+                    <h3>Upload Your Schedule</h3>
+                    <p>Snap a photo of your rota or connect your calendar.</p>
                 </div>
-                <div class="feature-block">
-                    <div class="feature-icon">🤖</div>
-                    <div class="feature-text">
-                        <h3>AI Calculates Availability</h3>
-                        <p>Free Up automatically figures out when everyone is free, even across different schedules and shift patterns.</p>
+                
+                <div class="flow-arrow">
+                    <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 12H58M58 12L48 2M58 12L48 22" stroke="#4F7CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-illustration">
+                        <div class="illustration-placeholder ai"></div>
                     </div>
+                    <h3>AI Calculates Availability</h3>
+                    <p>Our AI reads schedules and finds overlapping free time.</p>
                 </div>
-                <div class="feature-block">
-                    <div class="feature-icon">⚡</div>
-                    <div class="feature-text">
-                        <h3>See Shared Free Time</h3>
-                        <p>View when your friends or group are all available. No more back and forth messages.</p>
+                
+                <div class="flow-arrow">
+                    <svg width="60" height="24" viewBox="0 0 60 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M0 12H58M58 12L48 2M58 12L48 22" stroke="#4F7CFF" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                
+                <div class="flow-step">
+                    <div class="flow-illustration">
+                        <div class="illustration-placeholder shared"></div>
                     </div>
+                    <h3>See Shared Free Time</h3>
+                    <p>Instantly view when everyone is available to meet.</p>
                 </div>
-                <div class="feature-block">
-                    <div class="feature-icon">💰</div>
-                    <div class="feature-text">
+            </div>
+            
+            <!-- Split Costs Feature -->
+            <div class="secondary-feature">
+                <div class="secondary-card">
+                    <div class="secondary-illustration">
+                        <div class="illustration-placeholder payments"></div>
+                    </div>
+                    <div class="secondary-content">
                         <h3>Split Costs Instantly</h3>
-                        <p>When plans involve money, Free Up tracks payments and splits costs right within the event.</p>
+                        <p>Track who owes what when plans involve money.</p>
                     </div>
                 </div>
             </div>
@@ -214,6 +237,12 @@
                     <button type="submit" class="submit-btn">Join Waitlist</button>
                 </div>
                 <p class="form-note">We'll never share your email. Unsubscribe anytime.</p>
+                <div class="success-message" id="successMessage" style="display: none;">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M16.6667 5L7.50004 14.1667L3.33337 10" stroke="#10B981" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Thanks! You're on the waitlist.</span>
+                </div>
             </form>
         </div>
     </section>

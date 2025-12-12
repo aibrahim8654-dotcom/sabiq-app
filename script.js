@@ -132,6 +132,56 @@ if (window.location.hash) {
     }, 1);
 }
 
+// Handle waitlist form submission
+function handleWaitlistForm() {
+    const form = document.querySelector('.waitlist-form');
+    if (!form) return;
+
+    form.addEventListener('submit', async function(e) {
+        e.preventDefault();
+        
+        const formData = new FormData(form);
+        const submitBtn = form.querySelector('.submit-btn');
+        const originalText = submitBtn.textContent;
+        
+        // Show loading state
+        submitBtn.textContent = 'Joining...';
+        submitBtn.disabled = true;
+        
+        try {
+            const response = await fetch(form.action, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                    'Accept': 'application/json'
+                }
+            });
+            
+            if (response.ok) {
+                // Show success message
+                const successMessage = document.getElementById('successMessage');
+                if (successMessage) {
+                    successMessage.style.display = 'flex';
+                    form.querySelector('.email-input').value = '';
+                }
+                submitBtn.textContent = 'Joined!';
+            } else {
+                throw new Error('Submission failed');
+            }
+        } catch (error) {
+            submitBtn.textContent = originalText;
+            alert('Something went wrong. Please try again.');
+        } finally {
+            setTimeout(() => {
+                submitBtn.disabled = false;
+                if (submitBtn.textContent === 'Joined!') {
+                    submitBtn.textContent = originalText;
+                }
+            }, 3000);
+        }
+    });
+}
+
 // Initialize all features
 document.addEventListener('DOMContentLoaded', function() {
     // Scroll to top on page load
@@ -139,4 +189,5 @@ document.addEventListener('DOMContentLoaded', function() {
     
     initializeVideos();
     addCardAnimations();
+    handleWaitlistForm();
 });
