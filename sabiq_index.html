@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sabiq — Compete With Friends on Your Deen</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --teal: #0B1628;
+            --teal-dark: #12203A;
+            --navy: #0B1628;
+            --navy-mid: #12203A;
+            --navy-light: #1A2E50;
+            --gold: #C9A84C;
+            --gold-light: #E8C96A;
+            --gold-dim: rgba(201,168,76,0.15);
+            --off-white: #F5F0E8;
+            --muted: rgba(245,240,232,0.6);
+            --border: rgba(201,168,76,0.2);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--navy);
+            color: var(--off-white);
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* ── NAV ── */
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 100;
+            padding: 14px 48px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(11,22,40,0.92);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border);
+        }
+
+        .nav-logo {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+        }
+
+        .nav-logo img {
+            width: 38px;
+            height: 38px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+
+        .nav-logo-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 20px;
+            font-weight: 900;
+            color: var(--gold);
+            letter-spacing: 1px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            color: var(--muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover { color: var(--gold); }
+
+        .nav-cta a {
+            background: var(--gold);
+            color: var(--navy);
+            padding: 11px 22px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: background 0.2s, transform 0.2s;
+            white-space: nowrap;
+        }
+
+        .nav-cta a:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--off-white);
+            border-radius: 2px;
+            transition: all 0.3s;
+        }
+
+        /* ── HERO ── */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            background: var(--teal);
+            padding: 80px 48px 0;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 70% 50%, rgba(201,168,76,0.10) 0%, transparent 60%),
+                radial-gradient(ellipse at 10% 80%, rgba(201,168,76,0.05) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 56px;
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-copy {
+            flex: 1;
+            max-width: 520px;
+            padding-top: 40px;
+            padding-bottom: 60px;
+        }
+
+        .hero-rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold-dim);
+            border: 1px solid var(--border);
+            color: var(--gold);
+            padding: 7px 16px;
+            border-radius: 2px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-bottom: 28px;
+        }
+
+        .hero h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(38px, 5vw, 68px);
+            font-weight: 900;
+            line-height: 1.05;
+            color: var(--off-white);
+            margin-bottom: 22px;
+        }
+
+        .hero h1 .highlight { color: var(--gold); }
+
+        .hero-stats {
+            display: flex;
+            gap: 36px;
+            margin-bottom: 22px;
+            padding-bottom: 22px;
+            border-bottom: 1px solid var(--border);
+            flex-wrap: wrap;
+        }
+
+        .hero-stat .stat-num {
+            display: block;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 900;
+            color: var(--gold);
+            line-height: 1;
+        }
+
+        .hero-stat .stat-label {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-top: 5px;
+        }
+
+        .hero-desc {
+            font-size: 15px;
+            color: var(--muted);
+            line-height: 1.75;
+            margin-bottom: 10px;
+        }
+
+        .hero-tagline {
+            font-size: 13px;
+            color: var(--muted);
+            margin-bottom: 28px;
+        }
+
+        .hero-waitlist-btn {
+            display: inline-block;
+            background: var(--gold);
+            color: var(--navy);
+            padding: 16px 36px;
+            border-radius: 4px;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 0.5px;
+            transition: background 0.2s, transform 0.2s;
+        }
+
+        .hero-waitlist-btn:hover { background: var(--gold-light); transform: translateY(-2px); }
+
+        .hero-visual {
+            flex: 1;
+            max-width: 680px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            align-self: flex-end;
+        }
+
+        .hero-visual img {
+            width: 100%;
+            max-width: 620px;
+            height: auto;
+            display: block;
+            filter: drop-shadow(0 32px 72px rgba(0,0,0,0.22));
+        }
+
+        /* ── SECTION BASE ── */
+        section {
+            position: relative;
+            z-index: 1;
+            padding: 100px 24px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-eyebrow {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(32px, 5vw, 56px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .section-desc {
+            font-size: 17px;
+            color: var(--muted);
+            max-width: 580px;
+            line-height: 1.7;
+            margin-bottom: 64px;
+        }
+
+        /* ── HOW IT WORKS ── */
+        .how-it-works { background: var(--navy-mid); }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 2px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .step { background: var(--navy-mid); padding: 48px 36px; position: relative; }
+
+        .step-num {
+            font-family: 'Playfair Display', serif;
+            font-size: 64px;
+            font-weight: 900;
+            color: var(--gold-dim);
+            line-height: 1;
+            margin-bottom: 24px;
+        }
+
+        .step-icon { font-size: 32px; margin-bottom: 16px; }
+        .step h3 { font-size: 18px; font-weight: 600; margin-bottom: 12px; color: var(--off-white); }
+        .step p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+        /* ── FEATURES ── */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .feature-card {
+            background: var(--navy-mid);
+            border: 1px solid var(--border);
+            padding: 40px 36px;
+            border-radius: 2px;
+            transition: border-color 0.2s;
+        }
+
+        .feature-card:hover { border-color: var(--gold); }
+        .feature-icon { font-size: 36px; margin-bottom: 20px; }
+        .feature-card h3 { font-size: 20px; font-weight: 600; margin-bottom: 12px; color: var(--off-white); }
+        .feature-card p { font-size: 14px; color: var(--muted); line-height: 1.7; }
+
+        /* ── POINTS ── */
+        .points-section { background: var(--navy-mid); }
+
+        .points-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .points-card { background: var(--navy-mid); padding: 32px; }
+
+        .points-card h4 {
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 20px;
+        }
+
+        .point-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .point-row:last-child { border-bottom: none; }
+        .point-row span:first-child { color: var(--muted); }
+
+        .point-val {
+            color: var(--gold);
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+        }
+
+        /* ── FORFEIT ── */
+        .forfeit-section { text-align: center; }
+
+        .forfeit-card {
+            background: var(--navy-mid);
+            border: 1px solid var(--border);
+            border-radius: 2px;
+            padding: 64px 48px;
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .forfeit-card::before {
+            content: '😭';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.04;
+            top: -20px;
+            right: -20px;
+        }
+
+        .forfeit-card h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(28px, 4vw, 48px);
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .forfeit-card p {
+            font-size: 17px;
+            color: var(--muted);
+            line-height: 1.7;
+            margin-bottom: 32px;
+        }
+
+        .forfeit-tag {
+            display: inline-block;
+            background: var(--gold-dim);
+            border: 1px solid var(--border);
+            color: var(--gold);
+            padding: 8px 20px;
+            border-radius: 2px;
+            font-size: 14px;
+            font-weight: 600;
+            margin: 6px;
+        }
+
+        /* ── WAITLIST ── */
+        .waitlist-section { background: var(--navy-mid); text-align: center; }
+        .waitlist-inner { max-width: 560px; margin: 0 auto; }
+        .waitlist-form { margin-top: 40px; }
+
+        .form-row {
+            display: flex;
+            gap: 0;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            transition: border-color 0.2s;
+        }
+
+        .form-row:focus-within { border-color: var(--gold); }
+
+        .form-row input {
+            flex: 1;
+            background: var(--navy-light);
+            border: none;
+            padding: 16px 20px;
+            color: var(--off-white);
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+            outline: none;
+        }
+
+        .form-row input::placeholder { color: var(--muted); }
+
+        .form-row button {
+            background: var(--gold);
+            color: var(--navy);
+            border: none;
+            padding: 16px 28px;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'Inter', sans-serif;
+            cursor: pointer;
+            letter-spacing: 0.5px;
+            transition: background 0.2s;
+            white-space: nowrap;
+        }
+
+        .form-row button:hover { background: var(--gold-light); }
+        .form-note { font-size: 12px; color: var(--muted); margin-top: 12px; }
+
+        .success-msg {
+            display: none;
+            align-items: center;
+            gap: 8px;
+            justify-content: center;
+            color: #4ade80;
+            font-size: 15px;
+            font-weight: 500;
+            margin-top: 16px;
+        }
+
+        /* ── FOOTER ── */
+        footer {
+            position: relative;
+            z-index: 1;
+            border-top: 1px solid var(--border);
+            padding: 48px 40px 32px;
+        }
+
+        .footer-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .footer-brand .logo-text {
+            font-family: 'Playfair Display', serif;
+            font-size: 22px;
+            font-weight: 900;
+            color: var(--gold);
+            letter-spacing: 2px;
+        }
+
+        .footer-brand p { font-size: 13px; color: var(--muted); margin-top: 8px; }
+
+        .footer-links h4 {
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 16px;
+        }
+
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 10px; }
+        .footer-links a { font-size: 14px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+        .footer-links a:hover { color: var(--gold); }
+        .footer-links a.privacy-link { color: var(--gold); font-weight: 700; }
+        .footer-links a.privacy-link:hover { color: var(--gold-light); }
+
+        .footer-bottom {
+            max-width: 1100px;
+            margin: 32px auto 0;
+            padding-top: 24px;
+            border-top: 1px solid var(--border);
+            font-size: 12px;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 1024px) {
+            .hero { padding: 80px 32px 0; }
+            .hero-inner {
+                flex-direction: column;
+                text-align: center;
+                gap: 40px;
+            }
+            .hero-copy { max-width: 100%; padding-bottom: 0; }
+            .hero-stats { justify-content: center; }
+            .store-buttons { justify-content: center; }
+            .hero-visual { max-width: 366px; width: 100%; align-self: center; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 14px 20px; }
+
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                gap: 16px;
+                position: absolute;
+                top: 100%; left: 0; right: 0;
+                background: var(--navy);
+                padding: 20px;
+                border-bottom: 1px solid var(--border);
+            }
+
+            .nav-links.active { display: flex; }
+            .nav-toggle { display: flex; }
+            .nav-cta { display: none; }
+
+            .hero { padding: 70px 20px 0; }
+            .hero h1 { font-size: clamp(34px, 8vw, 52px); }
+            .hero-stats { gap: 24px; }
+
+            section { padding: 72px 20px; }
+            .steps-grid, .features-grid, .points-grid { grid-template-columns: 1fr; }
+            .form-row { flex-direction: column; }
+            .form-row input, .form-row button { width: 100%; }
+            .footer-inner { flex-direction: column; gap: 32px; }
+            .footer-bottom { flex-direction: column; }
+            .forfeit-card { padding: 40px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+    <a href="#" class="nav-logo">
+        <img src="attatched_assets/sabiq.png" alt="Sabiq logo">
+        <span class="nav-logo-name">SABIQ</span>
+    </a>
+    <div class="nav-links" id="navLinks">
+        <a href="#how-it-works">How It Works</a>
+        <a href="#features">Features</a>
+        <a href="#points">Points</a>
+        <a href="#waitlist">Join Waitlist</a>
+    </div>
+    <div class="nav-cta">
+        <a href="#waitlist">Join the Waitlist</a>
+    </div>
+    <button class="nav-toggle" id="navToggle" aria-label="Open navigation">
+        <span></span><span></span><span></span>
+    </button>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-inner">
+        <div class="hero-copy">
+            <div class="hero-rating">Coming Soon — Early Access</div>
+            <h1>Stay ahead.<br>Stay <span class="highlight">consistent.</span></h1>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <span class="stat-num">5</span>
+                    <span class="stat-label">Prayers Tracked Daily</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-num">360+</span>
+                    <span class="stat-label">Points Per Day</span>
+                </div>
+                <div class="hero-stat">
+                    <span class="stat-num">7-Day</span>
+                    <span class="stat-label">Challenge Cycles</span>
+                </div>
+            </div>
+            <p class="hero-desc">Compete with your friends and family on prayer, Quran, and dhikr. The most disciplined Muslim wins — and the loser owes the forfeit everyone agreed on.</p>
+            <p class="hero-tagline">Free to try · No credit card required</p>
+            <a href="#waitlist" class="hero-waitlist-btn">Join the Waitlist</a>
+        </div>
+        <div class="hero-visual">
+            <img src="attatched_assets/hero_img.png" alt="Sabiq app mockup">
+        </div>
+    </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how-it-works" id="how-it-works">
+    <div class="container">
+        <div class="section-eyebrow">How It Works</div>
+        <h2 class="section-title">Three steps to start competing with your circle.</h2>
+        <p class="section-desc">Set your challenge, track daily progress, and let the leaderboard decide who pays the forfeit.</p>
+        <div class="steps-grid">
+            <div class="step">
+                <div class="step-num">1</div>
+                <div class="step-icon">👥</div>
+                <h3>Create your circle</h3>
+                <p>Invite friends and family, choose a forfeit, and launch a weekly challenge that keeps everyone accountable.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">2</div>
+                <div class="step-icon">🕌</div>
+                <h3>Log routines fast</h3>
+                <p>Record prayers, Quran, and adhkar in seconds each day so the app can score your progress accurately.</p>
+            </div>
+            <div class="step">
+                <div class="step-num">3</div>
+                <div class="step-icon">🏆</div>
+                <h3>Watch the leaderboard</h3>
+                <p>See scores update, compare with friends and family, and know exactly who owes the agreed-upon forfeit.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+    <div class="container">
+        <div class="section-eyebrow">Features</div>
+        <h2 class="section-title">Everything you need.<br>Nothing you don't.</h2>
+        <p class="section-desc">Built around the five pillars of daily Muslim discipline — simple enough to use every morning after Fajr.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🕌</div>
+                <h3>Prayer Tracking</h3>
+                <p>Log all 5 prayers with a single tap. Fajr is weighted highest — because we all know that's the hard one. When prayer time hits, the app can lock your phone from scrolling and remind you to pray.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📖</div>
+                <h3>Quran Logging</h3>
+                <p>Track your daily Quran reading by pages or minutes. Build a streak. Watch your friends' streaks. Stay consistent or face the consequences.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📿</div>
+                <h3>Dhikr Check-In</h3>
+                <p>One tap for morning adhkar. One tap for evening adhkar. That's it. Simple enough that you have no excuse to miss it.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3>Weekly Leaderboard</h3>
+                <p>Live rankings among your friend circle. Resets every Monday so nobody falls hopelessly behind. The pressure is real. The motivation is real.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🔔</div>
+                <h3>Anti-Scroll Prayer Reminder</h3>
+                <p>When it's time to pray, the app locks your phone from endless scrolling and sends a calm reminder to get back to worship.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">💪</div>
+                <h3>Recovery Mode</h3>
+                <p>Miss a day? We don't punish you — we bring you back. Recovery mode lets you earn back points instead of quitting. Consistency over perfection.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- POINTS -->
+<section class="points-section" id="points">
+    <div class="container">
+        <div class="section-eyebrow">Points System</div>
+        <h2 class="section-title">Every good deed counts.</h2>
+        <p class="section-desc">Points weighted around what matters most. Fajr is always worth the most — as it should be.</p>
+        <div class="points-grid">
+            <div class="points-card">
+                <h4>🕌 Prayer</h4>
+                <div class="point-row"><span>Fajr on time</span><span class="point-val">60</span></div>
+                <div class="point-row"><span>Fajr logged</span><span class="point-val">50</span></div>
+                <div class="point-row"><span>Each prayer on time</span><span class="point-val">30</span></div>
+                <div class="point-row"><span>Each prayer logged</span><span class="point-val">20</span></div>
+                <div class="point-row"><span>All 5 prayers complete</span><span class="point-val">+50</span></div>
+            </div>
+            <div class="points-card">
+                <h4>📖 Quran &amp; Dhikr</h4>
+                <div class="point-row"><span>Quran session</span><span class="point-val">30</span></div>
+                <div class="point-row"><span>Morning adhkar</span><span class="point-val">20</span></div>
+                <div class="point-row"><span>Evening adhkar</span><span class="point-val">20</span></div>
+            </div>
+            <div class="points-card">
+                <h4>🏆 Bonuses</h4>
+                <div class="point-row"><span>Perfect day</span><span class="point-val">+100</span></div>
+                <div class="point-row"><span>7 day streak</span><span class="point-val">+150</span></div>
+                <div class="point-row"><span>Recovery completed</span><span class="point-val">+50</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FORFEIT -->
+<section>
+    <div class="container forfeit-section">
+        <div class="forfeit-card">
+            <div class="section-eyebrow" style="text-align:center">The Best Part</div>
+            <h2>The loser buys<br>everyone <span style="color:var(--gold)">food.</span></h2>
+            <p>Set a forfeit at the start of every week. The person with the lowest score at Sunday midnight owes the group. No escape. No mercy. Just accountability done right.</p>
+            <div>
+                <span class="forfeit-tag">🍗 Nando's run</span>
+                <span class="forfeit-tag">🎮 Loser hosts game night</span>
+                <span class="forfeit-tag">🍕 Pizza night on you</span>
+                <span class="forfeit-tag">☕ Coffee round</span>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- WAITLIST -->
+<section class="waitlist-section" id="waitlist">
+    <div class="container">
+        <div class="waitlist-inner">
+            <div class="section-eyebrow">Early Access</div>
+            <h2 class="section-title">Be first in<br>the circle.</h2>
+            <p style="color:var(--muted);font-size:17px;line-height:1.7">Join the waitlist and get early access when Sabiq launches. Be the first to set up your circle, set your forfeit, and start competing.</p>
+            <form class="waitlist-form" id="waitlistForm" action="https://formspree.io/f/xkolbkvr" method="POST">
+                <div class="form-row">
+                    <input type="email" name="email" placeholder="Your email address" required>
+                    <button type="submit">Join Waitlist</button>
+                </div>
+                <p class="form-note">No spam. No selling your data. Just the launch notification.</p>
+                <div class="success-msg" id="successMsg">
+                    <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M16.667 5L7.5 14.167 3.333 10" stroke="#4ade80" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    You're on the list. May Allah make you among the sabiqoon. 🤲
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-inner">
+        <div class="footer-brand">
+            <div class="logo-text">SABIQ</div>
+            <p>Compete on your deen.<br>Stay disciplined together.</p>
+        </div>
+        <div class="footer-links">
+            <h4>App</h4>
+            <ul>
+                <li><a href="#how-it-works">How It Works</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#points">Points System</a></li>
+                <li><a href="#waitlist">Join Waitlist</a></li>
+            </ul>
+        </div>
+        <div class="footer-links">
+            <h4>Follow</h4>
+            <ul>
+                <li><a href="https://tiktok.com/@sabiq.app" target="_blank">TikTok @sabiq.app</a></li>
+                <li><a href="https://instagram.com/sabiq.app" target="_blank">Instagram @sabiq.app</a></li>
+                <li><a href="privacy.html" class="privacy-link">Privacy Policy</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        <span>© 2025 Sabiq. All Rights Reserved.</span>
+        <span>Built for the Ummah 🤲</span>
+    </div>
+</footer>
+
+<script>
+const navToggle = document.getElementById('navToggle');
+const navLinks = document.getElementById('navLinks');
+
+if (navToggle) {
+    navToggle.addEventListener('click', function () {
+        navLinks.classList.toggle('active');
+        navToggle.classList.toggle('active');
+    });
+}
+
+document.querySelectorAll('#navLinks a').forEach(link => {
+    link.addEventListener('click', () => {
+        if (window.innerWidth <= 768) {
+            navLinks.classList.remove('active');
+            navToggle.classList.remove('active');
+        }
+    });
+});
+
+const form = document.getElementById('waitlistForm');
+if (form) {
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const btn = form.querySelector('button');
+        const original = btn.textContent;
+        btn.textContent = 'Joining...';
+        btn.disabled = true;
+        try {
+            const res = await fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            });
+            if (res.ok) {
+                document.getElementById('successMsg').style.display = 'flex';
+                form.querySelector('input').value = '';
+                btn.textContent = 'Joined!';
+            } else throw new Error();
+        } catch {
+            btn.textContent = original;
+            btn.disabled = false;
+            alert('Something went wrong. Please try again.');
+        }
+    });
+}
+</script>
+</body>
+</html>
